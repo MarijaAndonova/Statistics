@@ -1,0 +1,6 @@
+red,40,Skopje
+green,28,Ohrid
+red,37,Gevgelija, Marija
+green,28,Ohrid
+red,40,Skopje
+green,28,Ohrid

@@ -1,0 +1,100 @@
+﻿@using Newtonsoft.Json
+@{
+    List<DataPoint> dataPoints = ViewBag.DataPoints != null ? JsonConvert.DeserializeObject<List<DataPoint>>(ViewBag.DataPoints) : new List<DataPoint>();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+    <script>
+
+        var labels = [];
+        var altitudes = [];
+        var colors = [];
+
+        @foreach (var dataPoint in dataPoints)
+        {
+            <text>labels.push('@dataPoint.City');</text>
+            <text>altitudes.push('@dataPoint.Altitude');</text>
+            <text>colors.push('@dataPoint.Color');</text>
+        }
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Altitude',
+                    data: altitudes,
+                    backgroundColor: colors
+                }]
+            },
+            options: {
+                plugins: 
+                {
+                    title: 
+                    {
+                        display: true,
+                        text: 'Altitude Chart'
+                    }
+                },
+
+                scales: 
+                {
+                    y: 
+                    {
+                        beginAtZero: true,
+                        title: 
+                        {
+                            display: true,
+                            text: 'Altitude'
+                        }
+                    },
+                    x: 
+                    {
+                        title: 
+                        {
+                            display: true,
+                            text: 'City'
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: 
+                    {
+                        display: true,
+                        labels: 
+                        {
+                            font: 
+                            {
+                                size: 14 
+                            }
+                        }
+                    }
+                },
+
+                elements: 
+                {
+                    bar: 
+                    {
+                        borderWidth: 2, 
+                        borderRadius: 5 
+                    }
+                }
+                
+            }
+        });
+    </script>
+</body>
+</html>

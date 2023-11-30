@@ -1,0 +1,96 @@
+﻿@model List<Statistic>
+
+<div class="table-container">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Color</th>
+                <th>Altitude</th>
+                <th>City</th>
+                <th>Upload at</th>
+                <th>Delete</th>
+                <th>Update</th>
+            </tr>
+            <tr>
+                <th>
+                    <input type="text" id="colorFilter" class="form-control" placeholder="Search Color" />
+                </th>
+                <th>
+                    <input type="text" id="numberFilter" class="form-control" placeholder="Search altitude" />
+                </th>
+                <th>
+                    <input type="text" id="labelFilter" class="form-control" placeholder="Search City" />
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var stat in Model)
+            {
+                <tr>
+                    <td>@stat.Color</td>
+                    <td>@stat.Number</td>
+                    <td>@stat.Label</td>
+                    <td>@stat.File.UploadDateTime</td>
+                    <td>
+                        <form method="post" action="/File/Delete/@stat.Id">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this row?')">Delete</button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <form method="post" action="/File/Edit/@stat.Id">
+                            <input type="hidden" name="id" value="@stat.Id" />
+                            <div class="form-group">
+                                <label for="color">Color:</label>
+                                <input type="text" class="form-control" name="color" value="@stat.Color" />
+                            </div>
+                            <div class="form-group">
+                                <label for="number">Altitude:</label>
+                                <input type="text" class="form-control" name="number" value="@stat.Number" />
+                            </div>
+                            <div class="form-group">
+                                <label for="label">City:</label>
+                                <input type="text" class="form-control" name="label" value="@stat.Label" />
+                            </div>
+                            <button type="submit" class="btn btn-success">Update</button>
+                            <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#colorFilter, #numberFilter, #labelFilter').on('keyup', function () {
+                var colorValue = $('#colorFilter').val().toLowerCase();
+                var numberValue = $('#numberFilter').val().toLowerCase();
+                var labelValue = $('#labelFilter').val().toLowerCase();
+
+                $('tbody tr').filter(function () {
+                    var colorText = $(this).find('td:nth-child(1)').text().toLowerCase();
+                    var numberText = $(this).find('td:nth-child(2)').text().toLowerCase();
+                    var labelText = $(this).find('td:nth-child(3)').text().toLowerCase();
+
+                    $(this).toggle(colorText.includes(colorValue) && numberText.includes(numberValue) && labelText.includes(labelValue));
+                });
+            });
+        });
+
+    </script>
+}

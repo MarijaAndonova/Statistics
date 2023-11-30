@@ -1,0 +1,2 @@
+red,40,Skopje
+green,28,Ohrid

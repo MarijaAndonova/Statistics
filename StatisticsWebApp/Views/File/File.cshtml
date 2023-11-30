@@ -1,0 +1,21 @@
+﻿@model IEnumerable<FileModel>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>File Name</th>
+            <th>Number of Lines</th>
+            <th>Upload at</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fileInfo in Model)
+        {
+            <tr>
+                <td>@fileInfo.FileName</td>
+                <td>@fileInfo.LinesCount</td>
+                <td>@fileInfo.UploadDateTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
